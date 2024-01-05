@@ -10,7 +10,7 @@ module.exports = {
       connection = await db.getConnection();
 
       const users = await executeQuery(connection, query);
-      console.log("Query Results : ", users);
+
       return users[0];
     } catch (err) {
       logger.error("model Error : ", err.stack);
@@ -45,18 +45,58 @@ module.exports = {
   },
 
   // 로그인 시
-  findOne: async (uuid) => {
+  findByEmail: async (email) => {
     let connection;
     try {
-      const query = `SELECT user_uuid, password, salt, name, address_number, phone_number  FROM user WHERE user_uuid = "${uuid}"`;
+      const query = `SELECT user_uuid, password, salt, name, address_number, phone_number  FROM user WHERE email = "${email}"`;
 
       connection = await db.getConnection();
 
       const user = await executeQuery(connection, query);
 
-      console.log("Query Results : ", user);
+      return user[0][0];
+    } catch (err) {
+      logger.error("model Error : ", err.stack);
+      console.error("Error", err.message);
+      return err;
+    } finally {
+      if (connection) {
+        await db.releaseConnection(connection);
+      }
+    }
+  },
+
+  findByUUID: async (uuid) => {
+    let connection;
+    try {
+      const query = `SELECT user_uuid, password, name, address_number, phone_number  FROM user WHERE user_uuid = "${uuid}"`;
+
+      connection = await db.getConnection();
+
+      const user = await executeQuery(connection, query);
 
       return user[0][0];
+    } catch (err) {
+      logger.error("model Error : ", err.stack);
+      console.error("Error", err.message);
+      return err;
+    } finally {
+      if (connection) {
+        await db.releaseConnection(connection);
+      }
+    }
+  },
+
+  insertToken: async (token) => {
+    let connection;
+    try {
+      const query = `INSERT INTO user (refresh_token) VALUES ("${token}")`;
+
+      connection = await db.getConnection();
+
+      const result = await executeQuery(connection, query);
+
+      return result[0][0];
     } catch (err) {
       logger.error("model Error : ", err.stack);
       console.error("Error", err.message);
@@ -77,8 +117,6 @@ module.exports = {
       connection = await db.getConnection();
 
       const user = await executeQuery(connection, query);
-
-      console.log("Query Results : ", user);
 
       return user[0][0];
     } catch (err) {

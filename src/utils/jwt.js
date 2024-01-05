@@ -51,6 +51,7 @@ module.exports = {
   refreshVerify: async (token, uuid) => {
     try {
       const existing_refreshToken = await redis.get(uuid);
+
       if (existing_refreshToken === token) {
         try {
           jwt.verify(token, secretKey);
@@ -70,6 +71,7 @@ module.exports = {
         }
       }
     } catch (err) {
+      console.error("RefreshToken Redis Error ", err);
       logger.error("RefreshToken Redis Error : ", err.stack);
       // redis가 터질경우 고려해야함.
       return null;

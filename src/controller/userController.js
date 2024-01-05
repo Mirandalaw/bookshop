@@ -42,12 +42,14 @@ module.exports = {
     }
   },
 
-  findOne: async (req, res) => {
+  findByUUID: async (req, res) => {
     try {
       const { uuid } = req.query;
 
-      const user = await userService.findOne(uuid);
+      const user = await userService.findByUUID(uuid);
+
       if (user) return resHandler.SuccessResponse(res, user, 200);
+
       return resHandler.FailedResponse(res, "20", 400);
     } catch (err) {
       console.error(err);

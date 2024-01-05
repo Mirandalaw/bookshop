@@ -35,9 +35,9 @@ module.exports = {
     return user[0];
   },
 
-  findOne: async (uuid) => {
+  findByUUID: async (uuid) => {
     try {
-      const userInfo = await userModel.findOne(uuid);
+      const userInfo = await userModel.findByUUID(uuid);
 
       return userInfo;
     } catch (err) {
