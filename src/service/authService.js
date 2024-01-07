@@ -16,7 +16,7 @@ module.exports = {
   login: async (data) => {
     try {
       const user = await userModel.findByEmail(data.email);
-
+      // auth_login_status 여부 판단
       if (user) {
         const { user_uuid, salt, password } = user;
 
@@ -36,12 +36,24 @@ module.exports = {
     }
   },
 
+  // autoLogin: async (data) => {
+  //   try {
+  //     const accessToken = data.headers.authorization.split("Bearer ")[1];
+  //     if (!accessToken) return null;
+  //     const accessTokenInfo = jwt.verify(accessToken);
+  //
+  //     if (accessTokenInfo === TOKEN_EXPIRED) return;
+  //   } catch (err) {}
+  // },
+
   verifyToken: async (reqData) => {
     try {
       const accessToken = reqData.headers.authorization.split("Bearer ")[1];
+
+      if (!accessToken) return { accessToken: null, result: false };
+
       const accTokenInfo = jwt.verify(accessToken); // => invalid, expired, {payload}
 
-      console.log(accTokenInfo);
       // accessToken이 invalid된 경우 (accessToken 이 변조된 경우)
       if (accTokenInfo === TOKEN_INVALID)
         return { accessToken: null, result: ACCESSTOKEN_INVALID };

@@ -41,6 +41,22 @@ module.exports = {
       resHandler.FailedResponse(res, err.stack, 500);
     }
   },
+  /*
+  autoLogin : async (req,res) =>{
+    try{
+      const status = await authService.autoLogin(req);
+
+      if(status === null) return resHandler.FailedResponse(res,"Unauthorized" , 401);
+
+      if(status === 1) return resHandler.FailedResponse(res,"Invalid token",403 );
+
+
+    }catch (err) {
+      console.error(err);
+      resHandler.FailedResponse(res,err.stack,500);
+    }
+  }
+ */
 
   findByUUID: async (req, res) => {
     try {
