@@ -11,7 +11,6 @@ module.exports = {
     } catch (err) {
       console.error(err);
       resHandler.FailedResponse(res, err.stack, 500);
-      ``;
     }
   },
 

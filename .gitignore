@@ -1,5 +1,6 @@
 /node_modules
-.env.dev
 /src/config
 /logs
 .idea
+.env.production
+.env.dev

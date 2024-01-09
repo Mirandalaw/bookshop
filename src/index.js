@@ -1,9 +1,7 @@
 const createServerConfig = require("./serverConfig");
 
-const config = require("./config/serverConfig");
+const serverConfig = require("../src/config/serverConfig");
 
-console.log(config);
-
-const server = createServerConfig(config);
+const server = createServerConfig(serverConfig);
 
 server.start();
